@@ -1,10 +1,9 @@
 package com.example.producto.domain.repository;
 
 
-import com.example.producto.application.dto.ProductoRequestDTO;
-import com.example.producto.application.dto.ProductoResponseDTO;
-import java.util.Optional;
+import com.example.producto.application.dto.ProductoRequest;
+import com.example.producto.application.dto.ProductoResponse;
 
 public interface ProductoRepository {
-    ProductoResponseDTO findApplicablePrice(ProductoRequestDTO request);
+    ProductoResponse findApplicablePrice(ProductoRequest request);
 }

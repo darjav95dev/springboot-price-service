@@ -1,12 +1,9 @@
 package com.example.producto.application;
 
-import com.example.producto.application.dto.ProductoRequestDTO;
-import com.example.producto.application.dto.ProductoResponseDTO;
+import com.example.producto.application.dto.ProductoRequest;
+import com.example.producto.application.dto.ProductoResponse;
 import com.example.producto.domain.repository.ProductoRepository;
-import com.example.producto.infraestructure.persistence.ProductoJpaRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ProductoService {
@@ -17,7 +14,7 @@ public class ProductoService {
         this.repository = repository;
     }
 
-    public ProductoResponseDTO getApplicablePrice(ProductoRequestDTO request) {
+    public ProductoResponse getApplicablePrice(ProductoRequest request) {
         return repository.findApplicablePrice(request);
     }
 }

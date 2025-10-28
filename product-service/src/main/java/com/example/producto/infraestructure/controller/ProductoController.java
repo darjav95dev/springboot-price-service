@@ -2,8 +2,8 @@ package com.example.producto.infraestructure.controller;
 
 
 import com.example.producto.application.ProductoService;
-import com.example.producto.application.dto.ProductoRequestDTO;
-import com.example.producto.application.dto.ProductoResponseDTO;
+import com.example.producto.application.dto.ProductoRequest;
+import com.example.producto.application.dto.ProductoResponse;
 import com.example.producto.domain.exception.ProductoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +19,7 @@ import java.time.LocalDateTime;
 
 @Validated
 @RestController
-@RequestMapping("/api/productos")
-public class ProductoController {
+public class ProductoController implements ProductoAPI{
 
     private final ProductoService service;
 
@@ -31,17 +28,17 @@ public class ProductoController {
         this.service = service;
     }
 
-    @GetMapping
+    @Override
     public ResponseEntity<?> getProductoPrice(
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date,
             @RequestParam("productId") Integer productId,
             @RequestParam("brandId") Integer brandId
     ) {
 
-        ProductoRequestDTO request = new ProductoRequestDTO(date, productId, brandId);
+        ProductoRequest request = new ProductoRequest(date, productId, brandId);
 
         try {
-            ProductoResponseDTO response = service.getApplicablePrice(request);
+            ProductoResponse response = service.getApplicablePrice(request);
             return ResponseEntity.ok(response);
         } catch (ProductoException ex) {
             log.error("Error en getProductoPrice: {}", ex.getMessage(), ex);
@@ -57,4 +54,3 @@ public class ProductoController {
         }
     }
 }
-
