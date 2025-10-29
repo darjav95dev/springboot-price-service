@@ -23,7 +23,7 @@ public class ProductoController implements ProductoAPI{
 
     private final ProductoService service;
 
-    Logger log = LoggerFactory.getLogger(ProductoController.class);
+    private static final Logger log = LoggerFactory.getLogger(ProductoController.class);
     public ProductoController(ProductoService service) {
         this.service = service;
     }
