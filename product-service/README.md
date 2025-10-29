@@ -25,9 +25,10 @@ La lógica del servicio selecciona la tarifa con mayor prioridad dentro del rang
 
 git clone https://github.com/darjav95dev/springboot-price-service.git
 cd springboot-price-service
+cd product-service
 
 2. Compila y ejecuta la aplicación con Maven:
-   mvn spring-boot:run
+   mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 3. La aplicación estará disponible en `GET http://localhost:8080/api/productos`.
 
@@ -63,7 +64,7 @@ GET http://localhost:8080/api/prices?applicationDate=2020-06-14T10:00:00&product
     - Ejecuta las pruebas con Maven:
     - mvn test
     - Las pruebas verifican la lógica de selección de precios según los criterios especificados.
-    - Los casos de prueba incluyen diferentes fechas y productos para asegurar la correcta aplicación de las tarifas:
+    - Los casos de prueba son:
 
 -          Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)
 -          Test 2: petición a las 16:00 del día 14 del producto 35455   para la brand 1 (ZARA)
