@@ -1,79 +1,246 @@
 # SpringBoot Price Service
 
-Servicio REST desarrollado en Spring Boot para consultar el precio aplicable de un producto en una fecha determinada, según la tarifa vigente y la prioridad de aplicación.
+Servicio REST para consultar precios aplicables de productos según fecha, marca y prioridad de tarifas.
+
+## Tabla de Contenidos
+
+* Descripción
+* Características
+* Arquitectura
+* Tecnologías
+* Instalación
+* Uso
+* Documentación API
+* Testing
+* Base de Datos
+* Configuración
+* Autor
 
 ## Descripción
 
-Este servicio simula una base de datos de precios (`PRICES`) de una cadena de comercio electrónico. A través de un endpoint REST, permite consultar el precio final de un producto en función de:
+Servicio REST desarrollado en Spring Boot que simula un sistema de precios para una cadena de comercio electrónico. El servicio determina el precio final de un producto considerando:
 
-- Fecha de aplicación
-- Identificador de producto
-- Identificador de cadena (brand)
+* Fecha de aplicación (rango de vigencia)
+* Identificador de producto
+* Identificador de marca/cadena (brand)
+* Prioridad de tarifa (la de mayor prioridad prevalece)
 
-La lógica del servicio selecciona la tarifa con mayor prioridad dentro del rango de fechas aplicable.
+El sistema selecciona automáticamente la tarifa con mayor prioridad entre todas las tarifas activas en el rango de fechas solicitado.
 
-## Tecnologías utilizadas
-- Java 21
-- Spring Boot
-- H2 Database (en memoria)
-- JPA / Hibernate
-- Maven
-- JUnit / Spring Test
+## Características
 
-## Cómo ejecutar el proyecto
+* API RESTful con versionado (/api/v1)
+* Arquitectura Hexagonal (Ports & Adapters)
+* Base de datos H2 en memoria (fácil testing)
+* Documentación interactiva con Swagger/OpenAPI
+* Cobertura de tests completa
+* Optimización de consultas con índices compuestos
+* Validación de parámetros de entrada
+* DTOs para desacoplar API de dominio
+
+## Arquitectura
+
+El proyecto implementa una **arquitectura hexagonal (Ports and Adapters)**, que promueve la separación de responsabilidades y la independencia de frameworks. La estructura se organiza en capas:
+
+## Beneficios de esta arquitectura:
+
+Independencia del framework - Spring Boot es un detalle de infraestructura
+Alta mantenibilidad - Capas bien definidas
+Fácil testing - Lógica de negocio aislada
+Intercambiabilidad - Cambiar JPA por otro ORM sin afectar el dominio
+
+## Tecnologías
+
+| Tecnología        | Versión | Proposito                |
+|-------------------|---------|--------------------------|
+| Java              | 21      | Lenguaje Base            |
+| Spring boot       | 3.4.3   | Framework principal      |
+| Spring Data JPA   | 3.4.3   | Persistencia             |
+| H2 Database       | 2.3.232 | Base de datos en memoria |
+| Lombok            | 1.18.36 | Reducción de boilerplate |
+| JUnit 5           | 5.2     | Testing Unitario         |
+| SpringDoc OpenAPI | 2.8.5   | Documentación API        |
+| Maven             | 3.14.0  | Gestión de dependencias  |
+
+## Instalación
 1. Clona el repositorio:
 
 git clone https://github.com/darjav95dev/springboot-price-service.git
 cd springboot-price-service
 cd product-service
 
-2. Compila y ejecuta la aplicación con Maven:
-   mvn spring-boot:run -Dspring-boot.run.profiles=dev
+2. Compila el proyecto
 
-3. La aplicación estará disponible en `GET http://localhost:8080/api/productos`.
+mvn clean install
 
-4. Parametros de entrada:
-    - `applicationDate`: Fecha y hora para la que se desea consultar el precio (formato: `yyyy-MM-dd'T'HH:mm:ss`).
-    - `productId`: Identificador del producto.
-    - `brandId`: Identificador de la cadena (brand).
+3. Ejecuta la aplicación
 
-5. Ejemplo de llamada al endpoint:
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
-GET http://localhost:8080/api/prices?applicationDate=2020-06-14T10:00:00&productId=35455&brandId=1
+4. Verificar que está funcionando
 
-6. Ejemplo de respuesta
+curl http://localhost:8080/actuator/health
+
+## Uso
+
+**Endpoint Principal**
+
+GET http://localhost:8080/api/v1/products/{productId}/brands/{brandId}/price?date={date}
+
+**Parámetros**
+
+| Parámetro | Tipo     | Ubicación | Descripción           | Ejemplo             |
+|-----------|----------|-----------|-----------------------|---------------------|
+| productId | Integer  | Path      | ID del producto       | 35455               |
+| brandId   | Integer  | Path      | ID de la marca/cadena | 1                   |
+| date      | DateTime | Query     | Fecha de consulta     | 2020-06-14T10:00:00 |
+
+**Ejemplo de Llamada**
+
+GET http://localhost:8080/api/v1/products/35455/brands/1/price?date=2020-06-14T10:00:00
+
+**Respuesta Exitosa (200 OK)**
 
 {
-"productId": 35455,
-"brandId": 1,
-"priceList": 2,
-"startDate": "2020-06-14T15:00:00",
-"endDate": "2020-06-14T18:30:00",
-"price": 25.45,
-"currency": "EUR"
+  "productId": 35455,
+  "brandId": 1,
+  "priceList": 2,
+  "startDate": "2020-06-14T15:00:00",
+  "endDate": "2020-06-14T18:30:00",
+  "price": 25.45,
+  "currency": "EUR"
 }
 
-7. Acceso a la base de datos H2 (opcional):
-    - URL: `http://localhost:8080/h2-console`
-    - Driver Class: `org.h2.Driver`
-    - JDBC URL: `jdbc:h2:mem:testdb`
-    - User Name: `sa`
-    - Password: (dejar en blanco)
+**Respuesta de Error (404 Not Found)**
 
-8. Pruebas unitarias:
-    - Ejecuta las pruebas con Maven:
-    - mvn test
-    - Las pruebas verifican la lógica de selección de precios según los criterios especificados.
-    - Los casos de prueba son:
+{
+  "timestamp": "2024-06-01T12:00:00",
+  "status": 404,
+  "error": "Not Found",
+  "message": "No price found for the given criteria"
+}
 
--          Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)
--          Test 2: petición a las 16:00 del día 14 del producto 35455   para la brand 1 (ZARA)
--          Test 3: petición a las 21:00 del día 14 del producto 35455   para la brand 1 (ZARA)
--          Test 4: petición a las 10:00 del día 15 del producto 35455   para la brand 1 (ZARA)
--          Test 5: petición a las 21:00 del día 16 del producto 35455   para la brand 1 (ZARA)
+## Documentación API
 
+**Documentación Interactiva**
 
-## 📄 Documentación API
+Accede a la documentación completa con Swagger UI:
 
-La documentación de la API está disponible en Swagger UI en la siguiente URL:
-http://localhost:8080/swagger-ui/index.html#/
+http://localhost:8080/swagger-ui/index.html
+
+## Testing
+
+**Ejecutar todos los tests**
+
+mvn test
+
+**Ejecutar con cobertura**
+
+mvn clean verify
+
+El reporte de cobertura estará disponible en:
+
+target/jacoco-report/index.html
+
+**Suite de Tests**
+
+El proyecto incluye tests completos en 3 niveles:
+
+### Tests de Integración (Controller)
+
+Tests parametrizados - Validación de precios esperados:
+
+| Test   | Fecha/Hora       | Producto | Brand | Price List | Precio Esperado |
+|--------|------------------|----------|-------|------------|-----------------|
+| Test 1 | 2020-06-14 10:00 | 35455    | 1     | 1          | 35.50 EUR       |
+| Test 2 | 2020-06-14 16:00 | 35455    | 1     | 1          | 25.45 EUR       |
+| Test 3 | 2020-06-14 21:00 | 35455    | 1     | 1          | 35.50 EUR       |
+| Test 4 | 2020-06-15 10:00 | 35455    | 1     | 1          | 30.50 EUR       |
+| Test 5 | 2020-06-16 21:00 | 35455    | 1     | 1          | 38.95 EUR       |
+
+Test de casos negativos 
+
+* Producto no encontrado (ID 99999)
+* Marca no encontrada (Brand ID 999)
+* Parámetro de fecha faltante (400 Bad Request)
+* Formato de fecha inválido (400 Bad Request)
+* ID de producto negativo
+
+### Tests Unitarios (Service Layer)
+
+Tests aislados de la lógica de negocio sin dependencias externas.
+
+### Tests de Unitarios (Repository Layer)
+
+Validación de queries JPA y mapeo de entidades.
+
+## Base de Datos
+
+**H2 Console**
+
+* URL: `http://localhost:8080/h2-console`
+* Driver Class: `org.h2.Driver`
+* JDBC URL: `jdbc:h2:mem:testdb`
+* User Name: `sa`
+* Password: (dejar en blanco)
+
+### Esquema de la Tabla Prices
+
+CREATE TABLE PRICES (
+ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+BRAND_ID INT NOT NULL,
+START_DATE TIMESTAMP NOT NULL,
+END_DATE TIMESTAMP NOT NULL,
+PRICE_LIST INT,
+PRODUCT_ID INT NOT NULL,
+PRIORITY INT NOT NULL,
+PRICE DECIMAL(10,2) NOT NULL,
+CURR VARCHAR(3)
+);
+
+--Índice compuesto para optimización de queries
+
+CREATE INDEX idx_product_brand_dates_priority
+ON PRICES(PRODUCT_ID, BRAND_ID, START_DATE, END_DATE, PRIORITY);
+
+**Datos de Ejemplo**
+
+El servicio inicializa automáticamente con datos de prueba:
+
+INSERT INTO PRICES VALUES
+(1, 1, '2020-06-14 00:00:00', '2020-12-31 23:59:59', 1, 35455, 0, 35.50, 'EUR'),
+(2, 1, '2020-06-14 15:00:00', '2020-06-14 18:30:00', 2, 35455, 1, 25.45, 'EUR'),
+(3, 1, '2020-06-15 00:00:00', '2020-06-15 11:00:00', 3, 35455, 1, 30.50, 'EUR'),
+(4, 1, '2020-06-15 16:00:00', '2020-12-31 23:59:59', 4, 35455, 1, 38.95, 'EUR');
+
+## Configuración
+
+Las configuraciones principales se encuentran en `src/main/resources/application-dev.properties`:
+
+# Puerto del servidor
+server.port=8080
+# Configuración H2
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+# Configuración JPA
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+# Configuración de logging
+logging.level.org.springframework=INFO
+logging.level.com.example=DEBUG
+
+**Perfiles Disponibles**
+
+* dev - Desarrollo (logs detallados, H2 console habilitada)
+* test - Testing (configuración optimizada para tests)
+
+## Autor
+Darío Javier Díaz Caballero
+
+GitHub: @darjav95dev
+LinkedIn: https://www.linkedin.com/in/darjav95dev/
+
