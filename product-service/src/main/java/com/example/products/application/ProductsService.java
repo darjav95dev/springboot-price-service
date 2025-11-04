@@ -1,8 +1,8 @@
-package com.example.producto.application;
+package com.example.products.application;
 
-import com.example.producto.application.dto.ProductRequest;
-import com.example.producto.application.dto.ProductResponse;
-import com.example.producto.domain.repository.ProductRepository;
+import com.example.products.application.dto.ProductRequest;
+import com.example.products.application.dto.ProductResponse;
+import com.example.products.domain.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 @Service

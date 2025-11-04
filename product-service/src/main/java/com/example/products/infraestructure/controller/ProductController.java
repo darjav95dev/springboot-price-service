@@ -1,10 +1,10 @@
-package com.example.producto.infraestructure.controller;
+package com.example.products.infraestructure.controller;
 
 
-import com.example.producto.application.ProductsService;
-import com.example.producto.application.dto.ProductRequest;
-import com.example.producto.application.dto.ProductResponse;
-import com.example.producto.domain.exception.ProductException;
+import com.example.products.application.ProductsService;
+import com.example.products.application.dto.ProductRequest;
+import com.example.products.application.dto.ProductResponse;
+import com.example.products.domain.exception.ProductException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

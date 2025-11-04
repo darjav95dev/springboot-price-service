@@ -1,8 +1,8 @@
-package com.example.producto.config;
+package com.example.products.config;
 
 
-import com.example.producto.domain.model.Products;
-import com.example.producto.infraestructure.persistence.ProductJpaRepository;
+import com.example.products.domain.model.Products;
+import com.example.products.infraestructure.persistence.ProductJpaRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

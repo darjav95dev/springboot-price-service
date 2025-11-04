@@ -1,9 +1,9 @@
-package com.example.producto.infraestructure.persistence;
+package com.example.products.infraestructure.persistence;
 
-import com.example.producto.application.dto.ProductRequest;
-import com.example.producto.application.dto.ProductResponse;
-import com.example.producto.domain.exception.ProductException;
-import com.example.producto.domain.model.Products;
+import com.example.products.application.dto.ProductRequest;
+import com.example.products.application.dto.ProductResponse;
+import com.example.products.domain.exception.ProductException;
+import com.example.products.domain.model.Products;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

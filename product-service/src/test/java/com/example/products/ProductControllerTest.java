@@ -1,4 +1,4 @@
-package com.example.producto;
+package com.example.products;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

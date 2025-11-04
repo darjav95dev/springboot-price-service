@@ -40,14 +40,45 @@ El sistema selecciona automáticamente la tarifa con mayor prioridad entre todas
 
 ## Arquitectura
 
-El proyecto implementa una **arquitectura hexagonal (Ports and Adapters)**, que promueve la separación de responsabilidades y la independencia de frameworks. La estructura se organiza en capas:
+El proyecto implementa Arquitectura Hexagonal:
 
-## Beneficios de esta arquitectura:
 
-Independencia del framework - Spring Boot es un detalle de infraestructura
-Alta mantenibilidad - Capas bien definidas
-Fácil testing - Lógica de negocio aislada
-Intercambiabilidad - Cambiar JPA por otro ORM sin afectar el dominio
+src
+└── main
+    └── java
+        └── com.example.products
+            ├── application
+            │   ├── dto
+            │   │   ├── ProductRequest
+            │   │   ├── ProductResponse
+            │   ├── ProductsService
+            └── config
+            │   └── DataInitializer
+            ├── domain
+            │   ├── exception
+            │   │   └── ProductException
+            │   ├── model
+            │   │   └── Products
+            │   └── repository
+            │       └── ProductRepository
+            └── infrastructure
+                ├── controller
+                │   ├── ApiErrorResponse
+                │   ├── ProductAPI
+                │   └── ProductController
+                └── persistence
+                    ├── ProductJpaRepository
+                    └── ProductRepositoryImpl
+            └── ProductsApplication
+    └── resources
+└── test
+        └── java
+            └── com.example.products
+                  ├── application
+                  │   └── ProductsServiceTest
+                  └── infrastructure.persistence
+                      ├── ProductRepositoryImplTest
+                  └── ProductControllerTest
 
 ## Tecnologías
 

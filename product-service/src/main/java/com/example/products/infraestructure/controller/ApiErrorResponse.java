@@ -1,4 +1,4 @@
-package com.example.producto.infraestructure.controller;
+package com.example.products.infraestructure.controller;
 
 import lombok.Data;
 

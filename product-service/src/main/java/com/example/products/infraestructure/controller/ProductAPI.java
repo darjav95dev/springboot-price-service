@@ -1,6 +1,6 @@
-package com.example.producto.infraestructure.controller;
+package com.example.products.infraestructure.controller;
 
-import com.example.producto.application.dto.ProductResponse;
+import com.example.products.application.dto.ProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

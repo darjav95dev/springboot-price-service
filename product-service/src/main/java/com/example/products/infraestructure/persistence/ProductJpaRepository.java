@@ -1,7 +1,7 @@
-package com.example.producto.infraestructure.persistence;
+package com.example.products.infraestructure.persistence;
 
 
-import com.example.producto.domain.model.Products;
+import com.example.products.domain.model.Products;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
