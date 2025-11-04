@@ -1,9 +1,13 @@
 package com.example.products.domain.repository;
 
 
-import com.example.products.application.dto.ProductRequest;
-import com.example.products.application.dto.ProductResponse;
+import com.example.products.domain.model.Product;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 public interface ProductRepository {
-    ProductResponse findApplicablePrice(ProductRequest request);
+    Optional<Product> findApplicablePrice(Integer productId,
+                                          Integer brandId,
+                                          LocalDateTime date);
 }

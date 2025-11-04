@@ -1,13 +1,14 @@
 package com.example.products.infraestructure.persistence;
 
 
-import com.example.products.application.dto.ProductRequest;
-import com.example.products.application.dto.ProductResponse;
-import com.example.products.domain.exception.ProductException;
-import com.example.products.domain.model.Products;
+import com.example.products.domain.model.Product;
 import com.example.products.domain.repository.ProductRepository;
+import com.example.products.infraestructure.persistence.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 @Repository
@@ -15,35 +16,18 @@ import org.springframework.stereotype.Repository;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private final ProductJpaRepository jpaRepository;
+    private final ProductMapper mapper;
+
 
     @Override
-    public ProductResponse findApplicablePrice(ProductRequest request) {
-        Products product = jpaRepository
-                .findByProductBrandAndDate(
-                        request.productId(),
-                        request.brandId(),
-                        request.date()
-                )
-                .orElseThrow(() -> new ProductException(
-                        String.format("No applicable price found for product %d from brand %d on date %s",
-                                request.productId(),
-                                request.brandId(),
-                                request.date()
-                        )
-                ));
+    public Optional<Product> findApplicablePrice(
+            Integer productId,
+            Integer brandId,
+            LocalDateTime date
+    ) {
 
-        return mapToResponse(product);
-    }
-
-    private ProductResponse mapToResponse(Products product) {
-        return new ProductResponse(
-                product.getProductId(),
-                product.getBrandId(),
-                product.getPriceList(),
-                product.getStartDate(),
-                product.getEndDate(),
-                product.getPrice(),
-                product.getCurrency()
-        );
+        return jpaRepository
+                .findByProductIdBrandIdAndDate(productId, brandId, date)
+                .map(mapper::toDomain);  // ⬅️ Convierte Entity → Domain
     }
 }

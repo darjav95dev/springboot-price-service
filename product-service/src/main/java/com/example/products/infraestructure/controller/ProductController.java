@@ -23,9 +23,8 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/v1/products")
 public class ProductController implements ProductAPI {
 
-    private final ProductsService service;
-
     private static final Logger log = LoggerFactory.getLogger(ProductController.class);
+    private final ProductsService service;
 
     @Override
     @GetMapping("/{productId}/brands/{brandId}/price")
@@ -33,7 +32,7 @@ public class ProductController implements ProductAPI {
             @PathVariable("productId") Integer productId,
             @PathVariable("brandId") Integer brandId,
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date
-            ) {
+    ) {
 
         ProductRequest request = new ProductRequest(date, productId, brandId);
 

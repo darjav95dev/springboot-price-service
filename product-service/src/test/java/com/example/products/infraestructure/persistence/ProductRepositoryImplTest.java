@@ -1,9 +1,9 @@
 package com.example.products.infraestructure.persistence;
 
 import com.example.products.application.dto.ProductRequest;
-import com.example.products.application.dto.ProductResponse;
-import com.example.products.domain.exception.ProductException;
-import com.example.products.domain.model.Products;
+import com.example.products.domain.model.Product;
+import com.example.products.infraestructure.persistence.entity.ProductEntity;
+import com.example.products.infraestructure.persistence.mapper.ProductMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -19,9 +19,10 @@ class ProductRepositoryImplTest {
     void testFindApplicablePrice_Success() {
         // Arrange
         ProductJpaRepository mockJpa = Mockito.mock(ProductJpaRepository.class);
-        ProductRepositoryImpl repository = new ProductRepositoryImpl(mockJpa);
+        ProductMapper mockMapper = Mockito.mock(ProductMapper.class);
+        ProductRepositoryImpl repository = new ProductRepositoryImpl(mockJpa,mockMapper);
 
-        Products product = new Products();
+        ProductEntity product = new ProductEntity();
         product.setProductId(35455);
         product.setBrandId(1);
         product.setPriceList(1);
@@ -30,33 +31,54 @@ class ProductRepositoryImplTest {
         product.setPrice(35.50);
         product.setCurrency("EUR");
 
-        Mockito.when(mockJpa.findByProductBrandAndDate(anyInt(), anyInt(), any(LocalDateTime.class)))
+        Mockito.when(mockJpa.findByProductIdBrandIdAndDate(anyInt(), anyInt(), any(LocalDateTime.class)))
                 .thenReturn(Optional.of(product));
+
+
+        Mockito.when(mockMapper.toDomain(product))
+                .thenReturn(Product.builder()
+                        .productId(product.getProductId())
+                        .brandId(product.getBrandId())
+                        .priceList(product.getPriceList())
+                        .startDate(product.getStartDate())
+                        .endDate(product.getEndDate())
+                        .price(product.getPrice())
+                        .currency(product.getCurrency())
+                        .build());
 
         ProductRequest request = new ProductRequest(LocalDateTime.parse("2020-06-14T10:00:00"),35455, 1);
 
         // Act
-        ProductResponse response = repository.findApplicablePrice(request);
+        Optional<Product> response = repository.findApplicablePrice(
+                request.productId(),
+                request.brandId(),
+                request.date()
+        );
 
         // Assert
-        assertEquals(35455, response.productId());
-        assertEquals(1, response.brandId());
-        assertEquals(35.50, response.price());
-        assertEquals("EUR", response.currency());
+
+        assertTrue(response.isPresent());
+        assertEquals(35455, response.get().getProductId());
+        assertEquals(1, response.get().getBrandId());
+        assertEquals(35.50, response.get().getPrice());
+        assertEquals("EUR", response.get().getCurrency());
+
     }
 
     @Test
     void testFindApplicablePrice_NotFound() {
         // Arrange
         ProductJpaRepository mockJpa = Mockito.mock(ProductJpaRepository.class);
-        ProductRepositoryImpl repository = new ProductRepositoryImpl(mockJpa);
+        ProductMapper mockMapper = Mockito.mock(ProductMapper.class);
 
-        Mockito.when(mockJpa.findByProductBrandAndDate(anyInt(), anyInt(), any(LocalDateTime.class)))
+        ProductRepositoryImpl repository = new ProductRepositoryImpl(mockJpa, mockMapper);
+
+        Mockito.when(mockJpa.findByProductIdBrandIdAndDate(anyInt(), anyInt(), any(LocalDateTime.class)))
                 .thenReturn(Optional.empty());
 
-        ProductRequest request = new ProductRequest(LocalDateTime.parse("2020-06-14T10:00:00"),99999, 1);
+        Optional<Product> result = repository.findApplicablePrice(99999, 1, LocalDateTime.parse("2020-06-14T10:00:00"));
 
-        // Act & Assert
-        assertThrows(ProductException.class, () -> repository.findApplicablePrice(request));
+        assertTrue(result.isEmpty());
+
     }
 }
