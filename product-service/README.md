@@ -44,59 +44,59 @@ El proyecto implementa Arquitectura Hexagonal:
 
 
 src
-└── main
-    ├── java
-    │   └── com.example.products
-    │       ├── application                          CAPA DE APLICACIÓN
-    │       │   ├── dto
-    │       │   │   ├── ProductRequest.java
-    │       │   │   └── ProductResponse.java
-    │       │   └── ProductsService.java
-    │       │
-    │       ├── domain                               CAPA DE DOMINIO (NÚCLEO PURO)
-    │       │   ├── exception
-    │       │   │   └── ProductException.java
-    │       │   ├── model
-    │       │   │   └── Product.java                 Entidad de Dominio (sin anotaciones JPA)
-    │       │   └── repository
-    │       │       └── ProductRepository.java      Interfaz/Puerto (trabaja con Product)
-    │       │
-    │       ├── infrastructure                       CAPA DE INFRAESTRUCTURA
-    │       │   ├── config                          MOVIDO de raíz a infrastructure
-    │       │   │   └── DataInitializer.java       (usa ProductEntity)
-    │       │   ├── controller
-    │       │   │   ├── ApiErrorResponse.java
-    │       │   │   ├── ProductAPI.java
-    │       │   │   └── ProductController.java  
-    │       │   ├── handler                          
+├── main
+│   ├── java
+│   │   └── com.example.products
+│   │       ├── application                          CAPA DE APLICACIÓN
+│   │       │   ├── dto
+│   │       │   │   ├── ProductRequest.java
+│   │       │   │   └── ProductResponse.java
+│   │       │   └── ProductsService.java
+│   │       │
+│   │       ├── domain                               CAPA DE DOMINIO (NÚCLEO PURO)
+│   │       │   ├── exception
+│   │       │   │   └── ProductException.java
+│   │       │   ├── model
+│   │       │   │   └── Product.java                 Entidad de Dominio (sin anotaciones JPA)
+│   │       │   └── repository
+│   │       │       └── ProductRepository.java      Interfaz/Puerto (trabaja con Product)
+│   │       │
+│   │       ├── infrastructure                       CAPA DE INFRAESTRUCTURA
+│   │       │   ├── config                          
+│   │       │   │   └── DataInitializer.java       (Carga datos iniciales)
+│   │       │   ├── controller
+│   │       │   │   ├── ApiErrorResponse.java
+│   │       │   │   ├── ProductAPI.java
+│   │       │   │   └── ProductController.java  
+│   │       │   ├── handler                          
 │   │       │   │   └── GlobalExceptionHandler.java
-    │       │   └── persistence
-    │       │       ├── entity                      ENTIDADES JPA
-    │       │       │   └── ProductEntity.java      
-    │       │       ├── mapper                     
-    │       │       │   └── ProductMapper.java
-    │       │       ├── ProductJpaRepository.java  (trabaja con ProductEntity)
-    │       │       └── ProductRepositoryImpl.java (Adaptador: implementa ProductRepository)
-    │       │
-    │       └── ProductsApplication.java
-    │
-    └── resources
-        ├── application.yml
-        ├── application-dev.yml
-        └── application-test.yml
-
-    └── test
-        └── java
-            └── com.example.products
-                ├── application
-                │   └── ProductsServiceTest.java
-                ├── infrastructure
-                │   └── persistence
-                │       └── mapper
-                │            └── ProductMapperTest.java
-                │       └── ProductRepositoryImplTest.java
-                │       
-                └── ProductControllerTest.java
+│   │       │   └── persistence
+│   │       │       ├── entity                      ENTIDADES JPA
+│   │       │       │   └── ProductEntity.java      
+│   │       │       ├── mapper                     
+│   │       │       │   └── ProductMapper.java
+│   │       │       ├── ProductJpaRepository.java  
+│   │       │       └── ProductRepositoryImpl.java 
+│   │       │
+│   │       └── ProductsApplication.java
+│   │
+│   └── resources
+│       ├── application.yml
+│       ├── application-dev.yml
+│       └── application-test.yml
+│
+└── test
+    └── java
+        └── com.example.products
+            ├── application
+            │   └── ProductsServiceTest.java
+            ├── infrastructure
+            │   └── persistence
+            │       ├──  mapper
+            │       │     └── ProductMapperTest.java
+            │       └── ProductRepositoryImplTest.java
+            │       
+            └── ProductControllerTest.java
 
 ## Tecnologías
 
