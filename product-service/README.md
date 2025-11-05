@@ -90,7 +90,10 @@ src
                 │   └── ProductsServiceTest.java
                 ├── infrastructure
                 │   └── persistence
+                │       └── mapper
+                │            └── ProductMapperTest.java
                 │       └── ProductRepositoryImplTest.java
+                │       
                 └── ProductControllerTest.java
 
 ## Tecnologías
