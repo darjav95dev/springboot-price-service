@@ -5,7 +5,6 @@ import com.example.products.application.ProductsService;
 import com.example.products.application.dto.ProductRequest;
 import com.example.products.application.dto.ProductResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
