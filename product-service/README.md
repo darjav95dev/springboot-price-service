@@ -165,8 +165,8 @@ GET http://localhost:8080/api/v1/products/35455/brands/1/price?date=2020-06-14T1
 {
   "timestamp": "2024-06-01T12:00:00",
   "status": 404,
-  "error": "Not Found",
-  "message": "No price found for the given criteria"
+  "error": "Product Not Found",
+  "message": "No applicable price found for product 35455 from brand 1 on date 2024-06-01T12:00:00"
 }
 
 ## Documentación API
