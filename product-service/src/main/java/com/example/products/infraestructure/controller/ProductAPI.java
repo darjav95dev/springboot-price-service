@@ -16,5 +16,5 @@ public interface ProductAPI {
     @Operation(summary = "Check prices", description = "Check prices applicable according to date, product, and chain")
     @ApiResponse(responseCode = "200", description = "Check Correct", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductResponse.class)))
     @ApiResponse(responseCode = "404", description = "Product Not Found", content = @Content)
-    ResponseEntity<Object> getProductPrice(Integer productId, Integer brandId, LocalDateTime date);
+    ResponseEntity<ProductResponse> getProductPrice(Integer productId, Integer brandId, LocalDateTime date);
 }

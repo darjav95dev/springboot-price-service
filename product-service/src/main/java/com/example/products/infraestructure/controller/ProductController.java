@@ -24,7 +24,7 @@ public class ProductController implements ProductAPI {
 
     @Override
     @GetMapping("/{productId}/brands/{brandId}/price")
-    public ResponseEntity<Object> getProductPrice(
+    public ResponseEntity<ProductResponse> getProductPrice(
             @PathVariable("productId") Integer productId,
             @PathVariable("brandId") Integer brandId,
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date
