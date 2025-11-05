@@ -67,7 +67,9 @@ src
     │       │   ├── controller
     │       │   │   ├── ApiErrorResponse.java
     │       │   │   ├── ProductAPI.java
-    │       │   │   └── ProductController.java
+    │       │   │   └── ProductController.java  
+    │       │   ├── handler                          
+│   │       │   │   └── GlobalExceptionHandler.java
     │       │   └── persistence
     │       │       ├── entity                      ENTIDADES JPA
     │       │       │   └── ProductEntity.java      
