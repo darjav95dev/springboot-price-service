@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class ProductMapperTest {
+class ProductMapperTest {
 
 
     private final ProductMapper mapper = new ProductMapper();
