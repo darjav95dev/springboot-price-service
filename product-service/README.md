@@ -278,19 +278,19 @@ INSERT INTO PRICES VALUES
 
 Las configuraciones principales se encuentran en `src/main/resources/application-dev.properties`:
 
-# Puerto del servidor
+**Puerto del servidor**
 server.port=8080
-# Configuración H2
+**Configuración**
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
-# Configuración JPA
+**Configuración JPA**
 spring.datasource.url=jdbc:h2:mem:testdb
 spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
-# Configuración de logging
+**Configuración de logging**
 logging.level.org.springframework=INFO
 logging.level.com.example=DEBUG
 
