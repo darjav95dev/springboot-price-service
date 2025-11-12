@@ -191,6 +191,18 @@ El reporte de cobertura estará disponible en:
 
 target/jacoco-report/index.html
 
+**Verificar formato**
+
+mvn spotless:check
+
+**Verificar vulnerabilidades**
+
+mvn org.owasp:dependency-check-maven:check
+
+**Ver árbol de dependencias**
+
+mvn dependency:tree
+
 **Suite de Tests**
 
 El proyecto incluye tests completos en 3 niveles:
