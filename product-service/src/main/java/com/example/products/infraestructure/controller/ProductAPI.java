@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
+@SuppressWarnings("unused")
 @Tag(name = "Products API", description = "Product Status")
 public interface ProductAPI {
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 
+@SuppressWarnings("unused")
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,7 +24,7 @@ public class GlobalExceptionHandler {
                 "Product Not Found",
                 ex.getMessage()
         );
-        log.error("ProductException capturada: {}", ex.getMessage(), ex);
+        log.error("ProductException: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }

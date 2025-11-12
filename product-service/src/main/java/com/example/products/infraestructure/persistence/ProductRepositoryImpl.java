@@ -28,6 +28,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         return jpaRepository
                 .findByProductIdBrandIdAndDate(productId, brandId, date)
-                .map(mapper::toDomain);  // ⬅️ Convierte Entity → Domain
+                .map(mapper::toDomain);
     }
 }

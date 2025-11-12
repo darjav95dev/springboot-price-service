@@ -27,17 +27,16 @@ class ProductControllerTest {
 	void setup(WebApplicationContext context) {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
-
 	/**
-	 * Test para asegurar que la aplicación arranca sin excepciones.
+	 * Verifica que la aplicación se inicie correctamente.
 	 */
+
 	@Test
 	void testMainMethod() {
 		assertDoesNotThrow(() -> ProductsApplication.main(new String[]{}));
 	}
-
 	/**
-	 * Tests parametrizados para precios esperados en diferentes fechas.
+	 * Casos positivos.
 	 */
 	@ParameterizedTest
 	@CsvSource({

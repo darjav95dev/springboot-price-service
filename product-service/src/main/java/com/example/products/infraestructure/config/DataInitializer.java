@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
