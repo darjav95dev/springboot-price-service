@@ -7,43 +7,49 @@ import com.example.products.domain.model.Product;
 import com.example.products.domain.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+/** The type Products service. */
 @Service
 public class ProductsService {
 
-    private final ProductRepository repository;
+  private final ProductRepository repository;
 
-    public ProductsService(ProductRepository repository) {
-        this.repository = repository;
-    }
+  /**
+   * Instantiates a new Products service.
+   *
+   * @param repository the repository
+   */
+  public ProductsService(ProductRepository repository) {
+    this.repository = repository;
+  }
 
-    public ProductResponse getApplicablePrice(ProductRequest request) {
-        Product product = repository
-                .findApplicablePrice(
-                        request.productId(),
-                        request.brandId(),
-                        request.date()
-                )
-                .orElseThrow(() -> new ProductException(
+  /**
+   * Gets applicable price.
+   *
+   * @param request the request
+   * @return the applicable price
+   */
+  public ProductResponse getApplicablePrice(ProductRequest request) {
+    Product product =
+        repository
+            .findApplicablePrice(request.productId(), request.brandId(), request.date())
+            .orElseThrow(
+                () ->
+                    new ProductException(
                         String.format(
-                                "No applicable price found for product %d from brand %d on date %s",
-                                request.productId(),
-                                request.brandId(),
-                                request.date()
-                        )
-                ));
+                            "No applicable price found for product %d from brand %d on date %s",
+                            request.productId(), request.brandId(), request.date())));
 
-        return mapToResponse(product);
-    }
+    return mapToResponse(product);
+  }
 
-    private ProductResponse mapToResponse(Product product) {
-        return new ProductResponse(
-                product.getProductId(),
-                product.getBrandId(),
-                product.getPriceList(),
-                product.getStartDate(),
-                product.getEndDate(),
-                product.getPrice(),
-                product.getCurrency()
-        );
-    }
+  private ProductResponse mapToResponse(Product product) {
+    return new ProductResponse(
+        product.getProductId(),
+        product.getBrandId(),
+        product.getPriceList(),
+        product.getStartDate(),
+        product.getEndDate(),
+        product.getPrice(),
+        product.getCurrency());
+  }
 }

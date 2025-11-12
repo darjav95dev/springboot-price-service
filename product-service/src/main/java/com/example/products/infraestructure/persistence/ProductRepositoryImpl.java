@@ -1,33 +1,27 @@
 package com.example.products.infraestructure.persistence;
 
-
 import com.example.products.domain.model.Product;
 import com.example.products.domain.repository.ProductRepository;
 import com.example.products.infraestructure.persistence.mapper.ProductMapper;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-
+/** The type Product repository. */
 @Repository
 @RequiredArgsConstructor
 public class ProductRepositoryImpl implements ProductRepository {
 
-    private final ProductJpaRepository jpaRepository;
-    private final ProductMapper mapper;
+  private final ProductJpaRepository jpaRepository;
+  private final ProductMapper mapper;
 
+  @Override
+  public Optional<Product> findApplicablePrice(
+      Integer productId, Integer brandId, LocalDateTime date) {
 
-    @Override
-    public Optional<Product> findApplicablePrice(
-            Integer productId,
-            Integer brandId,
-            LocalDateTime date
-    ) {
-
-        return jpaRepository
-                .findByProductIdBrandIdAndDate(productId, brandId, date)
-                .map(mapper::toDomain);
-    }
+    return jpaRepository
+        .findByProductIdBrandIdAndDate(productId, brandId, date)
+        .map(mapper::toDomain);
+  }
 }
