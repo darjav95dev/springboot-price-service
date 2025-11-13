@@ -368,38 +368,27 @@ INSERT INTO PRODUCTS VALUES
 
 ### Archivo de Configuración
 
-Las configuraciones principales se encuentran en `src/main/resources/application-dev.yml`:
+Las configuracion común se encuentran en `src/main/resources/application.yml`:
 
 ```yaml
-server:
-  port: 8080
-
 spring:
   application:
     name: product-service
-  
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  
+
+  # Datasource común (será heredado por dev y test)
   datasource:
-    url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
     password:
-  
+
+  # JPA común
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-
-logging:
-  level:
-    org.springframework: INFO
-    com.example.products: DEBUG
+    open-in-view: false
 ```
+Las configuraciones específicas por perfil están en:
+- `application-dev.yml`
+- `application-test.yml`
 
 ### Perfiles Disponibles
 
