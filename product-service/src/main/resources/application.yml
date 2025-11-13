@@ -1,7 +1,15 @@
 spring:
+  application:
+    name: product-service
+
+  # Datasource común (será heredado por dev y test)
   datasource:
     driver-class-name: org.h2.Driver
     username: sa
     password:
-    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
+
+  # JPA común
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+

@@ -1,11 +1,29 @@
 spring:
+  # Datasource específico de testing
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+
+  # JPA/Hibernate para testing
   jpa:
     hibernate:
       ddl-auto: create-drop
     show-sql: false
+
+  # Inicialización SQL
   sql:
     init:
-      mode: always
+      mode: never
+
+  # H2 Console deshabilitada en tests
+  h2:
+    console:
+      enabled: false
+
+# Logging mínimo para tests (solo errores)
+logging:
+  level:
+    root: WARN
+    org.springframework: WARN
+    com.example.products: INFO
+    org.hibernate.SQL: WARN
 
