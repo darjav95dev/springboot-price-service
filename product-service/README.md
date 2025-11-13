@@ -307,9 +307,9 @@ Validación de queries JPA y mapeo de entidades (`ProductMapper`, `ProductReposi
 ### Cobertura de Código
 
 - **Controller Layer:** 100%
-- **Service Layer:** 95%+
-- **Repository Layer:** 90%+
-- **Overall Coverage:** 92%+
+- **Service Layer:** 100%+
+- **Repository Layer:** 100%+
+- **Overall Coverage:** 100%+
 
 ---
 
